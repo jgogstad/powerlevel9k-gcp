@@ -5,11 +5,6 @@ function gcloud_config_value {
   sed -nE "/$1/ s/.*$1 = ([^ ]+).*/\1/p" < $config
 }
 
-function prompt_gcp_project {
-  local project=$(gcloud_config_value project)
-  $1_prompt_segment "$0" "$2" white black "$project" "GCP_PROJECT_ICON"
-}
-
 function prompt_gcp_user {
   if [[ -n "$GOOGLE_APPLICATION_CREDENTIALS" ]]; then
     local username=$(sed -nE '/email/ s/.*email": "([^"]+)".*/\1/p' < "$GOOGLE_APPLICATION_CREDENTIALS")
@@ -23,15 +18,10 @@ function prompt_gcp_user {
   local icon
 
   if [[ $username == *"iam.gserviceaccount.com" ]]; then
-    icon=GCP_SERVICE_ACCOUNT_ICON
+    icon="%F{red}"
   else
-    icon=GCP_USER_ICON
+    icon="%F{027}"
   fi
 
-  $1_prompt_segment "$0" "$2" white black "${username%.iam.gserviceaccount.com*}" "$icon"
+  p10k segment -b white -f black -t "${username%.iam.gserviceaccount.com*}" -i "${icon}" +r
 }
-
-## GCP config
-POWERLEVEL9K_GCP_PROJECT_ICON="%F{202}\ue7b2"
-POWERLEVEL9K_GCP_USER_ICON="%F{027}\uf415"
-POWERLEVEL9K_GCP_SERVICE_ACCOUNT_ICON="%F{red}\uf013"

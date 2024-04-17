@@ -1,5 +1,7 @@
 # Powerlevel9k GCP
 
+_This repository is superseded by the powerlevel10k out-of-the-box gcp support_
+
 Show current GCP project and logged in user in your prompt. There's also an optimized version of the current kubernetes context segment (shown in pink below):
 
 ![screenshot](./docs/screenshot.png)
